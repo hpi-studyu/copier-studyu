@@ -1,3 +1,5 @@
+_subdirectory: project
+
 study_title:
   type: str
   default: Example
