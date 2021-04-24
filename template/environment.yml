@@ -2,10 +2,7 @@ name: example-environment
 
 dependencies:
   - python=3.9
-  - numpy
-  - toolz
-  - matplotlib
-  - dill
   - pandas
-  - partd
-  - bokeh
+  - matplotlib
+  - ipywidgets
+  - altair

@@ -1,0 +1,83 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Example notebook with analysis for \"[[study_title]]\" study"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# pandas is a fast, powerful, flexible and easy to use open source data analysis and manipulation tool,\n",
+    "# built on top of the Python programming language.\n",
+    "# https://pandas.pydata.org/\n",
+    "import pandas as pd\n",
+    "pd.read_json('data/subjects.json')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Matplotlib is a comprehensive library for creating static, animated, and interactive visualizations in Python.\n",
+    "# https://matplotlib.org/\n",
+    "import matplotlib\n",
+    "import pandas as pd\n",
+    "%matplotlib inline\n",
+    "download_url = \"https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/recent-grads.csv\"\n",
+    "df = pd.read_csv(download_url)\n",
+    "df.plot(x=\"Rank\", y=[\"P25th\", \"Median\", \"P75th\"])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# ipywidgets, also known as jupyter-widgets or simply widgets, are interactive HTML widgets for Jupyter notebooks and the IPython kernel.\n",
+    "# https://ipywidgets.readthedocs.io/en/latest/\n",
+    "import ipywidgets as widgets\n",
+    "from IPython.display import display\n",
+    "w = widgets.IntSlider()\n",
+    "display(w)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Altair is a declarative statistical visualization library for Python, based on Vega and Vega-Lite.\n",
+    "# https://altair-viz.github.io/\n",
+    "import altair as alt\n",
+    "\n",
+    "# load a simple dataset as a pandas DataFrame\n",
+    "from vega_datasets import data\n",
+    "cars = data.cars()\n",
+    "\n",
+    "alt.Chart(cars).mark_point().encode(\n",
+    "    x='Horsepower',\n",
+    "    y='Miles_per_Gallon',\n",
+    "    color='Origin',\n",
+    ")"
+   ]
+  }
+ ],
+ "metadata": {
+  "language_info": {},
+  "orig_nbformat": 3
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
