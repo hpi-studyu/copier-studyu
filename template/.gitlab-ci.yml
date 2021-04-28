@@ -32,8 +32,8 @@ update_requierements:
     - git checkout master
     - git add requirements.txt
     - git commit -m 'Update requirements.txt to match imports' || true
-    # Never fail push, since nothing to push returns an error
-    - git push && exit 1
+    # Exit is something is pushed
+    - if [ git push ]; then exit 0; fi
 
 upload_notebooks:
   stage: upload
