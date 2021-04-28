@@ -1,8 +1,0 @@
-name: example-environment
-
-dependencies:
-  - python=3.9
-  - pandas
-  - matplotlib
-  - ipywidgets
-  - altair

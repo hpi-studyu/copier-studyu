@@ -1,0 +1,46 @@
+# This file is a template, and might need editing before it works on your project.
+# Official language image. Look for the different tagged releases at:
+# https://hub.docker.com/r/library/python/tags/
+image: registry.gitlab.com/nstrelow/lower-back-pain
+
+stages:
+  - upload
+
+before_script:
+  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - echo "$key" | tr -d '\r' | ssh-add -
+  - git config --global user.email "python-requirements-updater@studyu.de"
+  - git config --global user.name "Python Requirements Updater"
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
+  #- cat gitlab-known-hosts >> ~/.ssh/known_hosts
+  - python -V  # Print out python version for debugging
+
+# update_requierements:
+#   stage: check
+#   only:
+#     - master
+#   script:
+#     - git clone git@gitlab.com:nstrelow/lower-back-pain.git
+#     - cd ${CI_PROJECT_NAME}
+#     - pip install pipreqsnb
+#     - echo 'Updating requirements.txt with all imported packages'
+#     - pipreqsnb --force
+#     - git checkout master
+#     - git add requirements.txt
+#     - git commit -m 'Update requirements.txt to match imports' || true
+#     # Never fail push, since nothing to push returns an error
+#     - git push || true
+
+upload_notebooks:
+  stage: upload
+  only:
+    - master
+  script:
+    - pip install -r requirements.txt
+    - export SUPABASE_URL=https://urrbcqpjcgokldetihiw.supabase.co
+    - export SUPABASE_PUBLIC_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYxNzUzMDYwMSwiZXhwIjoxOTMzMTA2NjAxfQ.T-QhpPisubwjOn3P1Gj3DV-2Mb_ztzvLwiVYWrGFvVA
+    - find . -type f -name \*.ipynb -exec bash -c 'FN="{}"; jupyter nbconvert --execute --to html "{}" --no-prompt; uploader -t "$session" -s $study_id "${FN%.ipynb}.html"' \;
+    #- uploader -t "$session" -s $study_id
