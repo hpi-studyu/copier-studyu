@@ -4,6 +4,7 @@
 image: registry.gitlab.com/nstrelow/lower-back-pain
 
 stages:
+  - check
   - upload
 
 before_script:
@@ -18,21 +19,21 @@ before_script:
   #- cat gitlab-known-hosts >> ~/.ssh/known_hosts
   - python -V  # Print out python version for debugging
 
-# update_requierements:
-#   stage: check
-#   only:
-#     - master
-#   script:
-#     - git clone git@gitlab.com:nstrelow/lower-back-pain.git
-#     - cd ${CI_PROJECT_NAME}
-#     - pip install pipreqsnb
-#     - echo 'Updating requirements.txt with all imported packages'
-#     - pipreqsnb --force
-#     - git checkout master
-#     - git add requirements.txt
-#     - git commit -m 'Update requirements.txt to match imports' || true
-#     # Never fail push, since nothing to push returns an error
-#     - git push || true
+update_requierements:
+  stage: check
+  only:
+    - master
+  script:
+    - git clone git@gitlab.com:nstrelow/${CI_PROJECT_NAME}.git
+    - cd ${CI_PROJECT_NAME}
+    - pip install pipreqsnb
+    - echo 'Updating requirements.txt with all imported packages'
+    - pipreqsnb --force
+    - git checkout master
+    - git add requirements.txt
+    - git commit -m 'Update requirements.txt to match imports' || true
+    # Never fail push, since nothing to push returns an error
+    - git push || true
 
 upload_notebooks:
   stage: upload
