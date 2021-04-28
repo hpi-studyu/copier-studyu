@@ -27,11 +27,11 @@ update_notebooks_and_requirements:
     - git clone git@gitlab.com:nstrelow/${CI_PROJECT_NAME}.git
     - cd ${CI_PROJECT_NAME}
     - pip install pipreqsnb
-    - echo '[ci skip] Updating requirements.txt with all imported packages'
+    - echo 'Updating requirements.txt with all imported packages'
     - pipreqsnb --force
     - git checkout master
     - git add requirements.txt
-    - git commit -m 'Update requirements.txt to match imports' || true
+    - git commit -m '[ci skip] Update requirements.txt to match imports' || true
     - git push || true # Don't exit if nothing to push
     # Find ipynb, convert to html and upload html to supabase storage
     - pip install -r requirements.txt
