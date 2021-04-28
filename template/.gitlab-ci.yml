@@ -4,7 +4,6 @@
 image: registry.gitlab.com/nstrelow/lower-back-pain
 
 stages:
-  - check
   - upload
 
 before_script:
@@ -19,29 +18,23 @@ before_script:
   #- cat gitlab-known-hosts >> ~/.ssh/known_hosts
   - python -V  # Print out python version for debugging
 
-update_requierements:
-  stage: check
-  only:
-    - master
-  script:
-    - git clone git@gitlab.com:nstrelow/${CI_PROJECT_NAME}.git
-    - cd ${CI_PROJECT_NAME}
-    - pip install pipreqsnb
-    - echo 'Updating requirements.txt with all imported packages'
-    - pipreqsnb --force
-    - git checkout master
-    - git add requirements.txt
-    - git commit -m 'Update requirements.txt to match imports' || true
-    # Exit is something is pushed
-    - if [ git push ]; then exit 0; fi
-
-upload_notebooks:
+update_notebooks_and_requirements:
   stage: upload
   only:
     - master
   script:
+    # Check and update requirements.txt if necessary
+    - git clone git@gitlab.com:nstrelow/${CI_PROJECT_NAME}.git
+    - cd ${CI_PROJECT_NAME}
+    - pip install pipreqsnb
+    - echo '[ci skip] Updating requirements.txt with all imported packages'
+    - pipreqsnb --force
+    - git checkout master
+    - git add requirements.txt
+    - git commit -m 'Update requirements.txt to match imports' || true
+    - git push || true # Don't exit if nothing to push
+    # Find ipynb, convert to html and upload html to supabase storage
     - pip install -r requirements.txt
     - export SUPABASE_URL=https://urrbcqpjcgokldetihiw.supabase.co
     - export SUPABASE_PUBLIC_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYxNzUzMDYwMSwiZXhwIjoxOTMzMTA2NjAxfQ.T-QhpPisubwjOn3P1Gj3DV-2Mb_ztzvLwiVYWrGFvVA
     - find . -type f -name \*.ipynb -exec bash -c 'FN="{}"; jupyter nbconvert --execute --to html "{}" --no-prompt; uploader -t "$session" -s $study_id "${FN%.ipynb}.html"' \;
-    #- uploader -t "$session" -s $study_id
