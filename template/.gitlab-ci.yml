@@ -33,7 +33,7 @@ update_requierements:
     - git add requirements.txt
     - git commit -m 'Update requirements.txt to match imports' || true
     # Never fail push, since nothing to push returns an error
-    - git push || true
+    - git push && exit 1
 
 upload_notebooks:
   stage: upload
