@@ -26,7 +26,6 @@ update_notebooks_and_requirements:
     # Check and update requirements.txt if necessary
     - git clone git@gitlab.com:nstrelow/${CI_PROJECT_NAME}.git
     - cd ${CI_PROJECT_NAME}
-    - pip install pipreqsnb
     - echo 'Updating requirements.txt with all imported packages'
     - pipreqsnb --force
     - git checkout master
@@ -37,4 +36,4 @@ update_notebooks_and_requirements:
     - pip install -r requirements.txt
     - export SUPABASE_URL=https://urrbcqpjcgokldetihiw.supabase.co
     - export SUPABASE_PUBLIC_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYxNzUzMDYwMSwiZXhwIjoxOTMzMTA2NjAxfQ.T-QhpPisubwjOn3P1Gj3DV-2Mb_ztzvLwiVYWrGFvVA
-    - find . -type f -name \*.ipynb -exec bash -c 'FN="{}"; jupyter nbconvert --execute --to html "{}" --no-prompt; uploader -t "$session" -s $study_id "${FN%.ipynb}.html"' \;
+    - /generate-notebook-htmls.sh
