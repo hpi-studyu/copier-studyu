@@ -136,3 +136,11 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Binder files
+.bash_logout
+.bashrc
+.profile
+.config/*
+.local/*
+.jupyter/*
