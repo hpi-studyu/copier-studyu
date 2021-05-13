@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Install a JupyterLab git extension for pushing changes to git
+pip install jupyterlab-git
+jupyter labextension install @jupyterlab/git
