@@ -1,0 +1,14 @@
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9
+  - r-base=4
+  - r-tidyverse
+  - r-devtools
+  - r-dagitty
+  - r-rmarkdown
+  - jupytext
+  - jupyterlab-git
+  - pip
+  - pip:
+    - -r file:../requirements.txt
