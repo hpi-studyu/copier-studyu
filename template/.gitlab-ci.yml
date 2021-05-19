@@ -4,25 +4,25 @@
 image: ghcr.io/hpi-studyu/notebook-uploader:latest
 
 stages:
+  - check
   - upload
 
-before_script:
-  - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
-  - eval $(ssh-agent -s)
-  - echo "$key" | tr -d '\r' | ssh-add -
-  - git config --global user.email "python-requirements-updater@studyu.de"
-  - git config --global user.name "Python Requirements Updater"
-  - mkdir -p ~/.ssh
-  - chmod 700 ~/.ssh
-  - ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
-  #- cat gitlab-known-hosts >> ~/.ssh/known_hosts
-  - python -V  # Print out python version for debugging
-
-update_notebooks_and_requirements:
-  stage: upload
+update_requirements:
+  stage: check
   only:
     - master
+  when: manual
+
   script:
+    # Setup SSH for pushing
+    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - echo "$key" | tr -d '\r' | ssh-add -
+    - git config --global user.email "python-requirements-updater@studyu.de"
+    - git config --global user.name "Python Requirements Updater"
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan -t rsa gitlab.com >> ~/.ssh/known_hosts
     # Check and update requirements.txt if necessary
     - git clone git@gitlab.com:nstrelow/${CI_PROJECT_NAME}.git
     - cd ${CI_PROJECT_NAME}
@@ -32,6 +32,12 @@ update_notebooks_and_requirements:
     - git add requirements.txt
     - git commit -m '[ci skip] Update requirements.txt to match imports' || true
     - git push || true # Don't exit if nothing to push
+
+update_notebook:
+  stage: upload
+  only:
+    - master
+  script:
     # Find ipynb, convert to html and upload html to supabase storage
     - pip install -r requirements.txt
     - export SUPABASE_URL=https://urrbcqpjcgokldetihiw.supabase.co
