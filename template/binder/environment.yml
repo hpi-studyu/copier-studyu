@@ -12,4 +12,5 @@ dependencies:
   - pip
   - pip:
     - julynter
+    - jupyter-nbrequirements
     - -r file:../requirements.txt
