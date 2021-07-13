@@ -9,6 +9,7 @@ dependencies:
   - r-rmarkdown
   - jupytext
   - jupyterlab-git
+  - nbdime
   - pip
   - pip:
     - julynter
