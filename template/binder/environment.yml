@@ -11,4 +11,5 @@ dependencies:
   - jupyterlab-git
   - pip
   - pip:
+    - julynter
     - -r file:../requirements.txt
