@@ -1,0 +1,330 @@
+{
+  "id": "267757f6-ed56-4be5-a541-0400fcf54278",
+  "title": "Leg Cramps",
+  "description": "This study helps you find out what reduces the frequency of leg cramps for you most.",
+  "user_id": "87e2701f-f45a-4555-b2f5-a0e67ab87937",
+  "participation": "open",
+  "result_sharing": "private",
+  "contact": {
+    "organization": "Hasso-Plattner-Institut für Digital Engineering",
+    "institutionalReviewBoard": "This study has not been submitted to the IRB Board. It is for illustration purposes of StudyU only.",
+    "researchers": "Stefan Konigorski",
+    "email": "stefan.konigorski@hpi.de",
+    "website": "https://hpi.de/lippert/projects/studyu.html",
+    "phone": "+49 331 5509 4873"
+  },
+  "icon_name": "accountHeart",
+  "published": true,
+  "questionnaire": [
+    {
+      "type": "boolean",
+      "id": "leg_cramps_yes",
+      "prompt": "Do you have leg cramps at least once every 14 days?"
+    },
+    {
+      "type": "boolean",
+      "id": "leg_cramps_check",
+      "prompt": "Were your leg cramps checked by a doctor and did not show a need for specific treatment?"
+    },
+    {
+      "type": "choice",
+      "id": "gender",
+      "prompt": "Please specify your gender",
+      "multiple": false,
+      "choices": [
+        {
+          "id": "male",
+          "text": "Male"
+        },
+        {
+          "id": "female",
+          "text": "Female"
+        }
+      ]
+    },
+    {
+      "type": "boolean",
+      "id": "pregnant",
+      "prompt": "Are you pregnant?",
+      "conditional": {
+        "condition": {
+          "type": "choice",
+          "target": "gender",
+          "choices": [
+            "female"
+          ]
+        },
+        "defaultValue": false
+      }
+    },
+    {
+      "type": "choice",
+      "id": "leg_cramps_red_flags",
+      "prompt": "Do you suffer from any of the following diseases?",
+      "rationale": "This question is asked to ensure that you are not suffering from any critical illness.",
+      "multiple": true,
+      "choices": [
+        {
+          "id": "restless",
+          "text": "Restless legs syndrome"
+        },
+        {
+          "id": "aod",
+          "text": "Peripheral arterial occlusive disease"
+        },
+        {
+          "id": "myositis",
+          "text": "Myositis"
+        },
+        {
+          "id": "neuropathy",
+          "text": "Neuropathy"
+        }
+      ]
+    }
+  ],
+  "eligibility_criteria": [
+    {
+      "id": "have_leg_cramps",
+      "reason": "Participants must experience leg cramps at least once every two weeks in order to produce relevant results.",
+      "condition": {
+        "type": "boolean",
+        "target": "leg_cramps_yes"
+      }
+    },
+    {
+      "id": "have_cramps_checked",
+      "reason": "Participants must have seen a doctor to get their cramps checked",
+      "condition": {
+        "type": "boolean",
+        "target": "leg_cramps_check"
+      }
+    },
+    {
+      "id": "not_pregnant",
+      "reason": "For safety reasons, pregnant individuals cannot participate in the study.",
+      "condition": {
+        "type": "not",
+        "expression": {
+          "type": "boolean",
+          "target": "pregnant"
+        }
+      }
+    },
+    {
+      "id": "no_red_flags",
+      "reason": "For safety reasons, participants cannot participate if they suffer from any differential diagnosis.",
+      "condition": {
+        "type": "not",
+        "expression": {
+          "type": "choice",
+          "target": "leg_cramps_red_flags",
+          "choices": [
+            "restless",
+            "aod",
+            "myositis",
+            "neuropathy"
+          ]
+        }
+      }
+    }
+  ],
+  "consent": [
+    {
+      "id": "Need",
+      "title": "Why Consent Is Needed",
+      "description": "We need your explicit consent because you are going to enroll to a research study. Therefore, we have to provide you all the information that could potentially have an impact on your decision whether or not you take part in the study. This is study-specific so please go through it carefully. Participation is entirely voluntary.",
+      "iconName": "featureSearch"
+    },
+    {
+      "id": "Risk_benefit",
+      "title": "Risks & Benefits",
+      "description": "The main risks to you if you choose to participate are allergic reactions to one of the interventions you are going to apply. If you feel uncomfortable, suffer from itching or rash please pause the study until you have seen a doctor. It is important to know that you may not get any benefit from taking part in this research. Others may not benefit either. However, study results may help you to understand if one of the offered interventions has a positive effect on one of the investigated observations for you.",
+      "iconName": "signCaution"
+    },
+    {
+      "id": "Data",
+      "title": "Data Handling & Use",
+      "description": "By giving your consent you accept that researchers are allowed to process anonymized data collected from you during this study for research purposes. If you stop being in the research study, already transmitted information may not be removed from the research study database because re-identification is not possible. It will continue to be used to complete the research analysis.",
+      "iconName": "databaseExport"
+    },
+    {
+      "id": "Issues",
+      "title": "Issues to Consider",
+      "description": "For being able to use your results for research we need you to actively participate for the indicated minimum study duration. After reaching this you will be able to unlock results but we encourage you to take part at least until you reach the recommended level on the progress bar. Otherwise it might be the case that results can indeed be used for research but are not meaningful for you personally. Note that if you decide to take part in this research study you will be responsible for buying the needed aids.",
+      "iconName": "mapClock"
+    },
+    {
+      "id": "Rights",
+      "title": "Participant Rights",
+      "description": "You may stop taking part in this research study at any time without any penalty. If you have any questions, concerns, or complaints at any time about this research, or you think the research has harmed you, please contact the office of the research team. You can find the contact details in your personal study dashboard.",
+      "iconName": "gavel"
+    },
+    {
+      "id": "Future",
+      "title": "Future Research",
+      "description": "The purpose of this research study is to help you find the most effective supporting agent or behavior. The aim is not to treat your symptom causally. In a broader perspective the purpose of this study is also to get insights which group of persons benefits most from which intervention.",
+      "iconName": "binoculars"
+    }
+  ],
+  "interventions": [
+    {
+      "id": "magnesium",
+      "name": "Magnesium",
+      "description": "During this phase you need to take one pill or fizzy tablet of magnesium per day because there is some evidence that leg cramps can be reduced with additional magnesium intake.",
+      "icon": "pill",
+      "tasks": [
+        {
+          "type": "checkmark",
+          "id": "take_magnesium",
+          "title": "Take a pill of 150-400mg Magnesium.",
+          "schedule": {
+            "completionPeriods": [
+              {
+                "unlockTime": "8:00",
+                "lockTime": "20:00"
+              }
+            ],
+            "reminders": [
+              "18:00"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "b12",
+      "name": "Vitamin B12",
+      "description": "During this phase you need to take one pill of Vitamin B12 (Cobalamin) per day because there is some evidence that leg cramps can be reduced with additional Cobalamin intake.",
+      "icon": "pill",
+      "tasks": [
+        {
+          "type": "checkmark",
+          "id": "take_b12",
+          "title": "Take a pill of 200µg Cobalamin.",
+          "schedule": {
+            "completionPeriods": [
+              {
+                "unlockTime": "8:00",
+                "lockTime": "20:00"
+              }
+            ],
+            "reminders": [
+              "18:00"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "massage",
+      "name": "Massage of affected muscles",
+      "description": "Leg cramps can sometimes be reduced by regular massage of affected muscles. During this phase you need to apply 5 minutes of smooth massage movements to your affected legs.",
+      "icon": "handRight",
+      "tasks": [
+        {
+          "type": "checkmark",
+          "id": "massage_yes",
+          "title": "Apply 5 minutes of smooth massage movements to your affected legs.",
+          "schedule": {
+            "completionPeriods": [
+              {
+                "unlockTime": "8:00",
+                "lockTime": "20:00"
+              }
+            ],
+            "reminders": [
+              "18:00"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "observations": [
+    {
+      "type": "questionnaire",
+      "id": "questionnaire",
+      "title": "Rate your day.",
+      "schedule": {
+        "completionPeriods": [
+          {
+            "unlockTime": "8:00",
+            "lockTime": "20:00"
+          }
+        ],
+        "reminders": [
+          "19:00"
+        ]
+      },
+      "questions": [
+        {
+          "type": "boolean",
+          "id": "leg_cramps_occurence",
+          "prompt": "Have you had leg cramps in the last 24 hours?"
+        },
+        {
+          "type": "visualAnalogue",
+          "id": "leg_cramps_strength",
+          "prompt": "Rate the strength of your leg cramps.",
+          "minimum": 0.0,
+          "maximum": 10.0,
+          "initial": 0.0,
+          "step": 1.0,
+          "minimumColor": 4294967295,
+          "maximumColor": 4294901760,
+          "minimumAnnotation": "no pain at all",
+          "maximumAnnotation": "worst day ever"
+        },
+        {
+          "type": "visualAnalogue",
+          "id": "sleep",
+          "prompt": "Rate your sleep.",
+          "minimum": 0.0,
+          "maximum": 10.0,
+          "initial": 0.0,
+          "step": 1.0,
+          "minimumColor": 4294967295,
+          "maximumColor": 4294901760,
+          "minimumAnnotation": "no problems",
+          "maximumAnnotation": "terrible"
+        },
+        {
+          "type": "visualAnalogue",
+          "id": "stress",
+          "prompt": "Rate your stress.",
+          "minimum": 0.0,
+          "maximum": 10.0,
+          "initial": 0.0,
+          "step": 1.0,
+          "minimumColor": 4294967295,
+          "maximumColor": 4294901760,
+          "minimumAnnotation": "everything easy",
+          "maximumAnnotation": "terrible"
+        }
+      ]
+    }
+  ],
+  "schedule": {
+    "numberOfCycles": 2,
+    "phaseDuration": 28,
+    "includeBaseline": true,
+    "sequence": "counterBalanced"
+  },
+  "report_specification": {
+    "primary": {
+      "type": "average",
+      "id": "primary",
+      "title": "Result Data",
+      "description": "Some Text Here...",
+      "aggregate": "day",
+      "resultProperty": {
+        "task": "questionnaire",
+        "property": "leg_cramps_strength"
+      }
+    },
+    "secondary": []
+  },
+  "results": [],
+  "collaborator_emails": []
+}
