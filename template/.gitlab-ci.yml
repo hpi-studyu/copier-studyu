@@ -39,5 +39,4 @@ update_notebook:
     - master
   script:
     # Find ipynb, convert to html and upload html to supabase storage
-    - pip install -r requirements.txt
     - /generate-notebook-htmls.sh
