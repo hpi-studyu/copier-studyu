@@ -4,6 +4,8 @@ _min_copier_version: "6.0.0a6"
 study_title:
   type: str
   default: Example
+git_url:
+  type: str
 outcomes:
     help: List of all question-ids (outcomes) formatted as JSON ['outcome1', 'outcome2',...]
     type: json
