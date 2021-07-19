@@ -39,4 +39,5 @@ update_notebook:
     - master
   script:
     # Find ipynb, convert to html and upload html to supabase storage
+    - micromamba install -y -n base -f environment.yml
     - /generate-notebook-htmls.sh
