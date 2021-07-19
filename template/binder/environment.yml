@@ -1,17 +1,28 @@
 channels:
   - conda-forge
 dependencies:
+  # Default Python
   - python=3.9
+  - altair
+  - matplotlib
+  - pandas
+  - vega_datasets
+  # - pip
+  # Default R
   - r-base=4
-  - r-tidyverse
-  - r-devtools
-  - r-dagitty
-  - r-rmarkdown
-  - jupytext
+  - r-essentials
+  # JupyterLab
+  - jupyterlab=3.0.16
   - jupyterlab-git
-  - nbdime
-  - pip
-  - pip:
-    - julynter
-    - jupyter-nbrequirements
-    - -r file:../requirements.txt
+  - jupyterlab-python-file
+  # R package cinof1: https://github.com/thogaertner/cinof1
+  - r-devtools
+  - r-bnlearn
+  - r-geepack
+  - r-psych
+  - r-dagitty
+  - r-ggplot2
+  - r-caret
+  - r-doParallel
+  - r-v8
+  - r-rmarkdown
