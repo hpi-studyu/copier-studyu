@@ -4,3 +4,7 @@ _min_copier_version: "6.0.0a6"
 study_title:
   type: str
   default: Example
+outcomes:
+    help: List of all question-ids (outcomes) formatted as JSON ['outcome1', 'outcome2',...]
+    type: json
+    default: '["pain","sleep","mood"]'

@@ -1,0 +1,105 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "c840ac0f-4e1f-44c2-9599-b324d3eebc3c",
+   "metadata": {},
+   "source": [
+    "# Example analysis: Most significantly effective intervention for every outcome\n",
+    "### This does not take into account any variables except _intervention\\_id_ and outcome"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "10dd7dc3-4c62-45c1-85eb-dcf87b0b52ef",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Import N-of-1 analysis library by Thomas Gaertner: Analyse causal inferences in N-of-1 studies https://github.com/thogaertner/cinof1\n",
+    "library(cinof1)\n",
+    "\n",
+    "significantly_effective_intervention <- function(outcome, exposure='intervention_id') {\n",
+    "    raw_df = read.csv(file = 'data/subjects.csv')\n",
+    "    df <- data.frame(raw_df)\n",
+    "    df[,exposure] = factor(raw_df[,exposure])\n",
+    "    drop <- c('completed_at', 'result_type', 'user_id', 'study_id', 'started_at', 'completed_at', 'invite_code')\n",
+    "    df = df[,!(names(df) %in% drop)]\n",
+    "\n",
+    "    # Shapiro–Wilk to test for normal distribution\n",
+    "    shapiro_result = shapiro.test(df[,outcome])\n",
+    "    print(shapiro_result)\n",
+    "    is_normal_distribution = shapiro_result$p >= 0.05 # Check if null hypothesis (nomal distribution) is likely\n",
+    "    if (is_normal_distribution) cat(\"The Shapiro–Wilk test: NORMAL distribution\\n\\n\\n\") else cat(\"The Shapiro–Wilk test: NO normal distribution\\n\\n\\n\")\n",
+    "\n",
+    "    performance_difference <- function(data) {\n",
+    "        if (is_normal_distribution) {\n",
+    "            cat(\"Normal distribution found. Applying Welch Two Sample t-test\")\n",
+    "            return(t.test(as.formula(sprintf(\"%s ~ %s\", outcome, exposure)), data = data, exact = FALSE, correct = FALSE, conf.int = FALSE))\n",
+    "        } else {\n",
+    "            cat(\"No normal distribution found. App%slying Wilcoxon signed rank test\")\n",
+    "            # Using cinof1 package\n",
+    "            return(wilcox.nofone(data, exposure = exposure, outcome = outcome))\n",
+    "        }\n",
+    "    }\n",
+    "    diff = performance_difference(df)\n",
+    "    print(diff)\n",
+    "    cat(\"\\n\\n\")\n",
+    "    has_significant_difference = diff$p.value < 0.05\n",
+    "\n",
+    "    if (has_significant_difference) {\n",
+    "        means = aggregate(as.formula(sprintf(\"%s ~ %s\", outcome, exposure)), data=df, mean)\n",
+    "        if (means[,outcome][1] > means[,outcome][2]) {\n",
+    "            cat('The intervention \"', levels(means[,exposure])[1],'\" is more effective by a mean of ', means[,outcome][1] - means[,outcome][2], ' to increase \"', outcome, '\" outcome')\n",
+    "        } else {\n",
+    "            cat('The intervention \"', levels(means[,exposure])[2], '\" is more effective by a mean of ', means[,outcome][2] - means[,outcome][1], ' to increase \"', outcome, '\" outcome')\n",
+    "        }\n",
+    "    } else {\n",
+    "        cat(\"Difference between means of interventions is NOT significant: \", diff$p.value)\n",
+    "    }\n",
+    "    cat(\"\\n\\n\")\n",
+    "    \n",
+    "    # Using cinof1 package\n",
+    "    print(comparative.plot(df, exposure = exposure, outcome = outcome))\n",
+    "}"
+   ]
+  },
+{% for outcome in outcomes %}
+  {
+   "cell_type": "markdown",
+   "id": "779112f5-3e65-4d4a-89ab-c545b98e6bac",
+   "metadata": {},
+   "source": [
+    "## Most significantly effective intervention for '{{outcome}}'"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "0faf483a-122c-4c92-bb9c-197cb4549599",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "significantly_effective_intervention(outcome = '{{outcome}}')"
+   ]
+  }{{ ", " if not loop.last else "" }}
+{% endfor %}
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "R",
+   "language": "R",
+   "name": "ir"
+  },
+  "language_info": {
+   "codemirror_mode": "r",
+   "file_extension": ".r",
+   "mimetype": "text/x-r-source",
+   "name": "R",
+   "pygments_lexer": "r",
+   "version": "4.1.0"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
